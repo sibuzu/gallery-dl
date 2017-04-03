@@ -98,9 +98,18 @@ def main():
                 except OSError as err:
                     log.error(err)
 
-            for url in urls:
+            urlbase = "https://danbooru.donmai.us/posts/"
+            i = int(urls[0].split('/')[-1])
+            if True:       
                 try:
-                    jobtype(url).run()
+                    for j in range(1000):
+                        idx = i * 1000 + j + 1
+                        url = urlbase + str(idx)
+                        if j == 0:
+                            jobx = jobtype(url)
+                        else:
+                            jobx.handle_queue(url)
+                    jobx.run()
                 except exception.NoExtractorError:
                     log.error("No suitable extractor found for '%s'", url)
 
